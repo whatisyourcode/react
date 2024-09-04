@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React CDN Example</title>
+    <!-- React and ReactDOM CDN -->
+    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+    <!-- Babel CDN for JSX support -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id="container"></div>
+    <script type="text/babel">
+        // React Component
+        var destination = document.querySelector("#container");
+        class HelloWorld extends React.Component {
+            render() {
+             return (
+                    <div>
+                     <h1>Hello, React with CDN!</h1>
+                        <p>This is a simple React example using CDN.</p>
+                    </div>
+             );
+            }
+        }
+
+        ReactDOM.render(
+    <div>
+    <HelloWorld />
+    <HelloWorld />
+    <HelloWorld />
+    <h1>Batman</h1>
+    <h1>Iron Man</h1>
+    <h1>Nicolas Cage</h1>
+     <h1>Mega Man</h1>
+     <HelloWorld/>
+    </div>,
+    destination
+    );
+
+        // Render the component to the DOM
+        ReactDOM.render(<div>
+                     <h1>Hello, React with CDN!</h1>
+                        <p>This is a simple React example using CDN.</p>
+                    </div>, document.getElementById('root'));
+    </script>
+</body>
+</html>

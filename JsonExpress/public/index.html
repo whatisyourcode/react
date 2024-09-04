@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CRUD UI</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    form {
+      margin-bottom: 20px;
+    }
+    input, button {
+      margin: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>CRUD Operations</h1>
+
+  <h2>Create Item</h2>
+  <form id="createForm">
+    <input type="text" id="createName" placeholder="Name" required>
+    <button type="submit">Create</button>
+  </form>
+
+  <h2>Update Item</h2>
+  <form id="updateForm">
+    <input type="number" id="updateId" placeholder="ID" required>
+    <input type="text" id="updateName" placeholder="New Name" required>
+    <button type="submit">Update</button>
+  </form>
+
+  <h2>Delete Item</h2>
+  <form id="deleteForm">
+    <input type="number" id="deleteId" placeholder="ID" required>
+    <button type="submit">Delete</button>
+  </form>
+
+  <h2>Items</h2>
+  <button id="fetchItems">Fetch Items</button>
+  <ul id="itemsList"></ul>
+
+  <script>
+    const baseUrl = 'http://localhost:3000/items';
+
+    document.getElementById('createForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('createName').value;
+      try {
+        const response = await fetch(baseUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name })
+        }); 
+        const data = await response.json();
+        alert('Item created: ' + JSON.stringify(data));
+      } catch (error) {
+        alert('Error creating item');
+      }
+    });
+
+    document.getElementById('updateForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const id = document.getElementById('updateId').value;
+      const name = document.getElementById('updateName').value;
+      try {
+        const response = await fetch(`${baseUrl}/${id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name })
+        });
+        const data = await response.json();
+        alert('Item updated: ' + JSON.stringify(data));
+      } catch (error) {
+        alert('Error updating item');
+      }
+    });
+
+    document.getElementById('deleteForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const id = document.getElementById('deleteId').value;
+      try {
+        await fetch(`${baseUrl}/${id}`, { method: 'DELETE' });
+        alert('Item deleted');
+      } catch (error) {
+        alert('Error deleting item');
+      }
+    });
+
+    document.getElementById('fetchItems').addEventListener('click', async () => {
+      try {
+        const response = await fetch(baseUrl);
+        const data = await response.json();
+        const itemsList = document.getElementById('itemsList');
+        itemsList.innerHTML = '';
+        data.forEach(item => {
+          const li = document.createElement('li');
+          li.textContent = `ID: ${item.id}, Name: ${item.name}`;
+          itemsList.appendChild(li);
+        });
+      } catch (error) {
+        alert('Error fetching items');
+      }
+    });
+  </script>
+</body>
+</html>
